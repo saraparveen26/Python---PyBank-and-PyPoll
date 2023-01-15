@@ -23,9 +23,11 @@ with open(election_csv,encoding='utf') as csvfile:
     winner_vote_count = 0
     winner = ""
 
-# Declare/ initiate Lists and Dictionaries to store values
+# Declare/ initiate Lists to store values
     total_candidate_list =[]
-    stats = {{"candidate":[]}, {"percentage": []}, {"count": []}}
+    unique_candidate_list =[]
+    candidate_count_list =[]
+    candidate_percentage_list =[]
 
 
 # Loop through the full dataset
@@ -40,26 +42,26 @@ with open(election_csv,encoding='utf') as csvfile:
 
         # Create List of Unique Candidate names
         candidate = row[2]
-        if candidate not in stats['candidate']:
-            stats['candidate'].append(candidate)
+        if candidate not in unique_candidate_list:
+            unique_candidate_list.append(candidate)
  
 
 # Calculate Total Number and Percentage of Votes for each Candidate, and name of Winner
 # Loop through Unique Candidate list and within that loop through the list of all Candidate name entries
     
-    for candidate_name in stats['candidate']:
+    for candidate_name in unique_candidate_list:
 
-        for total in total_candidate_list:
+        for value in total_candidate_list:
 
             # Calculate total and percentage votes for each Unique Candidate name
-            if total == candidate_name:
+            if value == candidate_name:
                 candidate_vote_count += 1
 
         candidate_vote_percentage = round(((candidate_vote_count/total_vote_count)*100),3)
 
         # Create Lists to Store Total and Percentage Votes for each Candidate
-        stats['count'].append(candidate_vote_count)
-        stats['percentage'].append(candidate_vote_percentage)
+        candidate_count_list.append(candidate_vote_count)
+        candidate_percentage_list.append(candidate_vote_percentage)
 
         # Identify the Winner of election based on popular vote
         if candidate_vote_count > winner_vote_count:
@@ -70,19 +72,34 @@ with open(election_csv,encoding='utf') as csvfile:
         candidate_vote_count = 0
 
 
-
-
+# Print all results to the terminal
 
 print(f'Election Results')
 print('----------------------------')
 print(f'Total Votes = {total_vote_count}')
 print('----------------------------')
+# Print statistics for each Unique Candidate 
+for name in unique_candidate_list:
+    index = unique_candidate_list.index(name)
+    print(f'{name}: {candidate_percentage_list[index]}% ({candidate_count_list[index]})')
+print(f'----------------------------') 
+print(f'Winner: {winner}')
+print(f'----------------------------')
 
-for each in stats:
-    print(f'{stats[candidate]}: {stats[percentage]}% ({stats[count]})')
-print('----------------------------')
-# print(f'{stats["candidate"]}')
-# print(f'{stats["count"]}')
-# print(f'{stats["percentage"]}%')  
-print(f'{winner}')
-print('----------------------------')
+
+# Create an output text file to export the Analysis results and set the path
+output = os.path.join("Analysis", "election_analysis.txt")
+
+# Open the file using "write" mode and write the required results
+with open(output, 'w') as datafile:
+    datafile.write(f'Election Results\n')
+    datafile.write(f'----------------------------\n')
+    datafile.write(f'Total Votes = {total_vote_count}\n')
+    datafile.write(f'----------------------------\n')
+    # Print statistics for each Unique Candidate 
+    for name in unique_candidate_list:
+        index = unique_candidate_list.index(name)
+        datafile.write(f'{name}: {candidate_percentage_list[index]}% ({candidate_count_list[index]})\n')
+    datafile.write(f'----------------------------\n')
+    datafile.write(f'Winner: {winner}\n')
+    datafile.write(f'----------------------------\n')

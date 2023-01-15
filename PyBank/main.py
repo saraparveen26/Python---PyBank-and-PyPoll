@@ -89,7 +89,7 @@ average_change = round((total_change / change_periods), 2)
 # Print all results to the terminal
 
 print(f'Financial Analysis')
-print('----------------------------')
+print(f'----------------------------')
 print(f'Total Months = {months}')
 print(f'Total: ${net_total}')
 print(f'Average Change: ${average_change}')
@@ -103,12 +103,9 @@ output = os.path.join("Analysis", "budget_analysis.txt")
 # Open the file using "write" mode and write the required results
 with open(output, 'w') as datafile:
     datafile.write(f'Financial Analysis\n')
-    datafile.write('----------------------------\n')
+    datafile.write(f'----------------------------\n')
     datafile.write(f'Total Months = {months}\n')
     datafile.write(f'Total: ${net_total}\n')
     datafile.write(f'Average Change: ${average_change}\n')
     datafile.write(f'Greatest Increase in Profits: {increase["date"]} (${increase["amount"]})\n')
     datafile.write(f'Greatest Decrease in Profits: {decrease["date"]} (${decrease["amount"]})')
-
-#     # Initialize csv.writer
-#     writer = csv.writer(datafile)
