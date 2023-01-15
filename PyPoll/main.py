@@ -18,40 +18,54 @@ with open(election_csv,encoding='utf') as csvfile:
 
 
 # Declare Variables for data analysis and their starting values
-    total_votes = 0
-    # net_total = 0
-    # previous_profit = 0
-    # change = 0
-    # total_change = 0
-    # change_periods = 0
+    total_vote_count = 0
+    candidate_vote_count = 0
 
 # Declare/ initiate Lists and Dictionaries to store values
-    ballot_list = []
-    # county_list = []
-    candidate_list =[]
+    total_candidate_list =[]
+    unique_candidate_list =[]
+    total_votes_list =[]
+    percentage_votes_list =[]
 
 
 # Loop through the data
 
     for row in csvreader:
 
-        # Create List to store source data for 'Ballots' and 'Profit/Losses' separately
-        ballot_list.append(row[0])
+        # Create List to store all entries for Candidates
+        total_candidate_list.append(row[2])
 
         
         # Calculate Total Number of Votes cast by counting total number of data entries
-        total_votes += 1
+        total_vote_count += 1
 
 
         # Create List of Candidates who received votes
+        candidate = row[2]
+        if candidate not in unique_candidate_list:
+            unique_candidate_list.append(candidate)
+ 
 
+# Calculate Total Number and Percentage of Votes for each Candidate
+    for candidate_name in unique_candidate_list:
+        for total in total_candidate_list:
+            if total == candidate_name:
+                candidate_vote_count += 1
+        total_votes_list.append(candidate_vote_count)
+        candidate_vote_percentage = round(((candidate_vote_count/total_vote_count)*100),3)
+        percentage_votes_list.append(candidate_vote_percentage)
+
+        candidate_vote_count = 0
 
 
 
 print(f'Election Results')
 print('----------------------------')
-print(f'Total Votes = {total_votes}')
+print(f'Total Votes = {total_vote_count}')
 print('----------------------------')
+print(f'{unique_candidate_list}')
+print(f'{total_votes_list}')
+print(f'{percentage_votes_list}%')  
 # print(f'Total: ${net_total}')
 # print(f'Average Change: ${average_change}')
 # print(f'Greatest Increase in Profits: {increase["date"]} (${increase["amount"]})')
