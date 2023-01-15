@@ -1,30 +1,58 @@
-# First we'll import the os module
-# This will allow us to create file paths across operating systems
+# Import the OS module to create file paths across operating systems
 import os
 
-# Module for reading CSV files
+# Import module for reading CSV files
 import csv
 
-#     # Read the header row first (skip this step if there is now header)
-#     csv_header = next(csvreader)
-#     print(f"CSV Header: {csv_header}")
+# Set path for the source file
+election_csv = os.path.join ('Resources','election_data.csv')
 
-# Set path for file
-csvpath = os.path.join ("Resources", "election_data.csv")
-
-# CSV reader specifies delimiter and variable that holds contents
-# Open the CSV
-with open(csvpath,encoding='utf') as csvfile:
+# Open and read the CSV source file
+# Specify the delimiter and CSV reader variable to hold content
+with open(election_csv,encoding='utf') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
-    print(csvreader)
 
-# Read the header row first (skip this step if there is now header)
+# Read the header row and print it
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
-# Read each row of data after the header
+
+# Declare Variables for data analysis and their starting values
+    total_votes = 0
+    # net_total = 0
+    # previous_profit = 0
+    # change = 0
+    # total_change = 0
+    # change_periods = 0
+
+# Declare/ initiate Lists and Dictionaries to store values
+    ballot_list = []
+    # county_list = []
+    candidate_list =[]
+
+
+# Loop through the data
+
     for row in csvreader:
-        print(row)
+
+        # Create List to store source data for 'Ballots' and 'Profit/Losses' separately
+        ballot_list.append(row[0])
+
+        
+        # Calculate Total Number of Votes cast by counting total number of data entries
+        total_votes += 1
 
 
-   
+        # Create List of Candidates who received votes
+
+
+
+
+print(f'Election Results')
+print('----------------------------')
+print(f'Total Votes = {total_votes}')
+print('----------------------------')
+# print(f'Total: ${net_total}')
+# print(f'Average Change: ${average_change}')
+# print(f'Greatest Increase in Profits: {increase["date"]} (${increase["amount"]})')
+# print(f'Greatest Decrease in Profits: {decrease["date"]} (${decrease["amount"]})')

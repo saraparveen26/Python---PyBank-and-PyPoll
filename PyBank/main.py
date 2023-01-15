@@ -1,92 +1,114 @@
-# First we'll import the os module
-# This will allow us to create file paths across operating systems
+# Import the OS module to create file paths across operating systems
 import os
 
-# Module for reading CSV files
+# Import module for reading CSV files
 import csv
 
-# Set path for file
+# Set path for the source file
 budget_csv = os.path.join ('Resources','budget_data.csv')
 
-# CSV reader specifies delimiter and variable that holds contents
-# # Open the CSV
+# Open and read the CSV source file
+# Specify the delimiter and CSV reader variable to hold content
 with open(budget_csv,encoding='utf') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
-# Read the header row first (skip this step if there is now header)
+# Read the header row and print it
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
-# # Read each row of data after the header
-#     for row in csvreader:
-#         print(row)
 
-# Calculat total number of months in dataset
+# Declare Variables for data analysis and their starting values
     months = 0
     net_total = 0
     previous_profit = 0
     change = 0
-    total_change=0
-    change_periods=0
-    profit_loss = []
-    changes_entire =[]
+    total_change = 0
+    change_periods = 0
+
+# Declare/ initiate Lists and Dictionaries to store values
+    date_list = []
+    profit_loss_list = []
+    changes_list =[]
+    increase = {"date":"", "amount":0}
+    decrease = {"date":"", "amount":0}
+
+
+# Loop through the data
 
     for row in csvreader:
 
-        months += 1
+        # Create Lists to store source data for 'Date' and 'Profit/Losses' separately
+        date_list.append(row[0])
+        profit_loss_list.append(row[1])
 
+
+        # Calculate the Net Total Amount of 'Profit/Losses' over the entire period 
+        # by adding values in that column as we move through the loop and store it
         net_total += int(row[1])
 
+
+        # Calculate Changes in Profit/ Losses over the entire period
         profit_loss = int(row[1])
+        
+        # As we do not have a previous Profit/Loss value to compare for the data in first entry,
+        # exclude the first row by using appropriate If statement
         if previous_profit != 0:
+
+            # Calculate Change by deducting previous value from current value in 'Profit/Losses'
+            # and storing the calculated Change value by adding to the list
             change = profit_loss - previous_profit
-            changes_entire.append(change)
+            changes_list.append(change)
+
+            # Calculate Cumulative/ Ongoing Change by adding all change values
             total_change += int(change)
-            change_periods +=1
+
         previous_profit = profit_loss
+
     
-    average_change = round((total_change / change_periods), 2)
+        # Calculate the Greatest Increase in Profits (date and amount) over the entire period
+        if change > increase["amount"]:
+            increase["amount"] = change
+            increase["date"] = row[0]
 
-    #     profit_loss = int(row[1])
-    #     if previous_profit != 0:
-    #         change = profit_loss - previous_profit
-    #         changes_entire.append(change)
-    #     previous_profit = profit_loss
+
+        # Calculate the Greatest Decrease in Profits (date and amount) over the entire period
+        if change < decrease["amount"]:
+            decrease["amount"] = change
+            decrease["date"] = row[0] 
     
-    # average_change = round((sum(changes_entire) / len(changes_entire)), 2)
+
+# Calculate Total Number of Months in dataset by counting length of the list containing all dates
+months = len(date_list)
+
+
+# Calculate Average of all Changes by dividing sum of all change values by number of change periods
+change_periods=len(changes_list)
+average_change = round((total_change / change_periods), 2)
     
-    print(f'Total Months = {months}')
-    print(f'Total: ${net_total}')
-    print(f'Average Change: ${average_change}')
+
+# Print all results to the terminal
+
+print(f'Financial Analysis')
+print('----------------------------')
+print(f'Total Months = {months}')
+print(f'Total: ${net_total}')
+print(f'Average Change: ${average_change}')
+print(f'Greatest Increase in Profits: {increase["date"]} (${increase["amount"]})')
+print(f'Greatest Decrease in Profits: {decrease["date"]} (${decrease["amount"]})')
 
 
+# Create an output text file to export the Analysis results and set the path
+output = os.path.join("Analysis", "budget_analysis.txt")
 
-
-# # Write a function that returns the arithmetic average for a list of numbers
-# def average(numbers):
-#     length = len(numbers)
-#     total = 0.0
-#     for number in numbers:
-#         total += number
-#     return total / length
-
-
-# # Test your function with the following:
-# print(average([1, 5, 9]))
-# print(average(range(11)))
-
-# # Specify the file to write to
-# output_path = os.path.join("Analysis", "Results.txt")
-# # Open the file using "write" mode. Specify the variable to hold the contents
-# with open(output_path, 'w') as datafile:
+# Open the file using "write" mode and write the required results
+with open(output, 'w') as datafile:
+    datafile.write(f'Financial Analysis\n')
+    datafile.write('----------------------------\n')
+    datafile.write(f'Total Months = {months}\n')
+    datafile.write(f'Total: ${net_total}\n')
+    datafile.write(f'Average Change: ${average_change}\n')
+    datafile.write(f'Greatest Increase in Profits: {increase["date"]} (${increase["amount"]})\n')
+    datafile.write(f'Greatest Decrease in Profits: {decrease["date"]} (${decrease["amount"]})')
 
 #     # Initialize csv.writer
 #     writer = csv.writer(datafile)
-
-#     # Write the first row (column headers)
-#     writer.writerow(['First Name', 'Last Name', 'SSN'])
-
-#     # Write the second row
-#     writer.writerow(['Caleb', 'Frost', '505-80-2901'])
-
-#  writer.writerows(roster)
