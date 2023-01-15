@@ -9,10 +9,11 @@ budget_csv = os.path.join ('Resources','budget_data.csv')
 
 # Open and read the CSV source file
 # Specify the delimiter and CSV reader variable to hold content
-with open(budget_csv,encoding='utf') as csvfile:
+with open(budget_csv,encoding='utf-8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
-# Read the header row and print it
+# Read the header row and store it
+# Print the Header to the terminal to help with analysis
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
@@ -20,7 +21,7 @@ with open(budget_csv,encoding='utf') as csvfile:
 # Declare Variables for data analysis and their starting values
     months = 0
     net_total = 0
-    previous_profit = 0
+    previous_profit = ""
     change = 0
     total_change = 0
     change_periods = 0
@@ -48,11 +49,12 @@ with open(budget_csv,encoding='utf') as csvfile:
 
 
         # Calculate Changes in Profit/ Losses over the entire period
+        # Set the starting value for Profit/Losses
         profit_loss = int(row[1])
         
         # As we do not have a previous Profit/Loss value to compare for the data in first entry,
         # exclude the first row by using appropriate If statement
-        if previous_profit != 0:
+        if previous_profit != "":
 
             # Calculate Change by deducting previous value from current value in 'Profit/Losses'
             # and storing the calculated Change value by adding to the list

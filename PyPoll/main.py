@@ -9,10 +9,10 @@ election_csv = os.path.join ('Resources','election_data.csv')
 
 # Open and read the CSV source file
 # Specify the delimiter and CSV reader variable to hold content
-with open(election_csv,encoding='utf') as csvfile:
+with open(election_csv,encoding='utf-8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
-# Read the header row and print it
+# Read the header row and store it
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
@@ -26,8 +26,8 @@ with open(election_csv,encoding='utf') as csvfile:
 # Declare/ initiate Lists to store values
     total_candidate_list =[]
     unique_candidate_list =[]
-    candidate_count_list =[]
-    candidate_percentage_list =[]
+    count_list =[]
+    percentage_list =[]
 
 
 # Loop through the full dataset
@@ -37,7 +37,7 @@ with open(election_csv,encoding='utf') as csvfile:
         # Create List to store all entries for Candidates
         total_candidate_list.append(row[2])
 
-        # Calculate Total Number of Votes cast by counting total number of data entries
+        # Calculate Total Number of Votes cast by counting total number of data entries/ rows
         total_vote_count += 1
 
         # Create List of Unique Candidate names
@@ -60,15 +60,15 @@ with open(election_csv,encoding='utf') as csvfile:
         candidate_vote_percentage = round(((candidate_vote_count/total_vote_count)*100),3)
 
         # Create Lists to Store Total and Percentage Votes for each Candidate
-        candidate_count_list.append(candidate_vote_count)
-        candidate_percentage_list.append(candidate_vote_percentage)
+        count_list.append(candidate_vote_count)
+        percentage_list.append(candidate_vote_percentage)
 
         # Identify the Winner of election based on popular vote
         if candidate_vote_count > winner_vote_count:
             winner_vote_count = candidate_vote_count
             winner = candidate_name
 
-        # Reset the Total Vote count for candidates
+        # Reset the Vote count to loop through next candidate
         candidate_vote_count = 0
 
 
@@ -76,12 +76,11 @@ with open(election_csv,encoding='utf') as csvfile:
 
 print(f'Election Results')
 print('----------------------------')
-print(f'Total Votes = {total_vote_count}')
+print(f'Total Votes: {total_vote_count}')
 print('----------------------------')
-# Print statistics for each Unique Candidate 
-for name in unique_candidate_list:
-    index = unique_candidate_list.index(name)
-    print(f'{name}: {candidate_percentage_list[index]}% ({candidate_count_list[index]})')
+# Print statistics for each Unique Candidate by iterating through the 3 lists storing data
+for (name, percentage, count) in zip(unique_candidate_list, percentage_list, count_list):
+    print(f"{name}: {percentage}% ({count})")
 print(f'----------------------------') 
 print(f'Winner: {winner}')
 print(f'----------------------------')
@@ -94,12 +93,11 @@ output = os.path.join("Analysis", "election_analysis.txt")
 with open(output, 'w') as datafile:
     datafile.write(f'Election Results\n')
     datafile.write(f'----------------------------\n')
-    datafile.write(f'Total Votes = {total_vote_count}\n')
+    datafile.write(f'Total Votes: {total_vote_count}\n')
     datafile.write(f'----------------------------\n')
-    # Print statistics for each Unique Candidate 
-    for name in unique_candidate_list:
-        index = unique_candidate_list.index(name)
-        datafile.write(f'{name}: {candidate_percentage_list[index]}% ({candidate_count_list[index]})\n')
+    # Print statistics for each Unique Candidate by iterating through the 3 lists storing data
+    for (name, percentage, count) in zip(unique_candidate_list, percentage_list, count_list):
+        datafile.write(f'{name}: {percentage}% ({count})\n')
     datafile.write(f'----------------------------\n')
     datafile.write(f'Winner: {winner}\n')
     datafile.write(f'----------------------------\n')
