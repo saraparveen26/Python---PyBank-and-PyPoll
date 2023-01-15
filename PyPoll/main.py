@@ -13,6 +13,7 @@ with open(election_csv,encoding='utf-8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
 # Read the header row and store it
+# Print the Header to the terminal to help with analysis
     csv_header = next(csvreader)
     print(f"CSV Header: {csv_header}")
 
