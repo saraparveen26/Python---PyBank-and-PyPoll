@@ -9,7 +9,7 @@ There are two separate folders created for the two parts of the challenge: PyBan
 
 ## **PyBank:**
 
-As first part of the challenge, I used Python script to analyze the data in the CSV file for budget. The original data contains two columns: Date and Profit/ Losses. The script starts by importing the modules for OS and CSV, setting the path for source file, and reading the header. In the next step, I declared some variables, and initiated lists and disctionaries to store data.
+As first part of the challenge, I used Python script to analyze the data in the CSV file for budget. The original data contains two columns: Date and Profit/ Losses. The script starts by importing the modules for OS and CSV, setting the path for source file, and reading the header. I had printed the header row when creating and testing the script, however, commented in the final version as the assignment instructions only state to store it. In the next step, I declared some variables, and initiated lists and disctionaries to store data.
 
 The script then loops through the entire data in CSV. It firsts stores the data in both Data and Profit/Losses to two separate lists. Then the values in Profit/Losses dataset are added to calculate the Net Total Amount of Profit/ Losses. 
 
@@ -19,7 +19,7 @@ If statements are used to calculate the Greatest Increase and Decrease in Profit
 
 The Total number of Months in the dataset are then derived by calculating the length of the list creatred to store all dates. 
 
-The Average of all Changes is calculated by dividing the amount in Total Change by the length of the list containing all Changes. The result is rounded to 2 decimals.
+The Average of all Changes is calculated by dividing the amount in Total Change by the length of the list containing all Changes. The result is rounded to 2 decimals. Alternatively, a Mean function could be declared and called to calculate the average.
 
 In the next step, all the results are printed to the terminal.
 
@@ -27,7 +27,7 @@ Finally, an output path is initiated to create a Text file. The text file is the
 
 ## **PyPoll:**
 
-As first part of the challenge, I used Python script to analyze the data in the CSV file for elections. The original data contains three columns: Ballot ID, County and Candidate. The script starts by importing the modules for OS and CSV, setting the path for source file, and reading the header. In the next step, I declared some variables, and initiated lists to store data. The required analysis will mostly be based on data under the heaeder "Candidate".
+As first part of the challenge, I used Python script to analyze the data in the CSV file for elections. The original data contains three columns: Ballot ID, County and Candidate. The script starts by importing the modules for OS and CSV, setting the path for source file, and reading the header. I had printed the header row when creating and testing the script, however, commented in the final version as the assignment instructions only state to store it. In the next step, I declared some variables, and initiated lists to store data. The required analysis will mostly be based on data under the heaeder "Candidate".
 
 The script then loops through the entire data in CSV. It firsts stores the data under Candidate to a list. Then the Total number of Votes casted are calculated by adding the number of entries as we iterate through the entire loop. An alternate way of calculating total number of votes is to count the length of any lists created to store data under any of the headers. I had used that method in the PyBank challenge.
 

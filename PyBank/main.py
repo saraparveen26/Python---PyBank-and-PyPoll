@@ -13,9 +13,9 @@ with open(budget_csv,encoding='utf-8') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
 
 # Read the header row and store it
-# Print the Header to the terminal to help with analysis
     csv_header = next(csvreader)
-    print(f"CSV Header: {csv_header}")
+    # Note: I printed the Header while testing but commenting it as not required in assignment instructions
+    # print(f"CSV Header: {csv_header}")
 
 
 # Declare Variables for data analysis and their starting values
